@@ -1,30 +1,30 @@
 # Stage 1: Build the application
-# Use a full JDK to compile the code and build the JAR
 FROM eclipse-temurin:17-jdk-jammy AS builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Maven project files
+# Copy Maven wrapper and pom.xml first (better caching of dependencies)
+COPY mvnw .
+COPY .mvn .mvn
 COPY pom.xml .
+
+# Download dependencies (cached unless pom.xml changes)
+RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
+
+# Copy the rest of the source code
 COPY src ./src
 
-RUN chmod +x ./mvnw
-
-# Build the JAR file, skipping tests for a faster build
+# Build the JAR file, skipping tests
 RUN ./mvnw package -DskipTests
 
-# Stage 2: Create the final, lightweight image
-FROM openjdk:17-jre-slim
+# Stage 2: Run the application in a smaller image
+FROM eclipse-temurin:17-jre-jammy
 
-# Set the working directory for the runtime
 WORKDIR /app
 
-# Copy the JAR file from the build stage
-COPY --from=builder /app/target/*.jar ./app.jar
+# Copy the JAR from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
 
-# Expose the port that your Spring Boot application runs on
 EXPOSE 8080
 
-# Define the command to run the application
 CMD ["java", "-jar", "app.jar"]
