@@ -22,4 +22,3 @@ target/
 *.jar
 *.war
 *.class
-/data/
