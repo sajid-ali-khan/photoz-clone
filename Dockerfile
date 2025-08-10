@@ -3,26 +3,27 @@ FROM eclipse-temurin:17-jdk-jammy AS builder
 
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml first (better caching of dependencies)
+# Copy Maven wrapper and settings first (for dependency caching)
 COPY mvnw .
-COPY .mvn .mvn
+COPY .mvn/wrapper .mvn/wrapper
+
 COPY pom.xml .
 
-# Download dependencies (cached unless pom.xml changes)
+# Make mvnw executable and download dependencies
 RUN chmod +x mvnw && ./mvnw dependency:go-offline -B
 
-# Copy the rest of the source code
+# Copy the rest of the project source
 COPY src ./src
 
-# Build the JAR file, skipping tests
+# Build the JAR file
 RUN ./mvnw package -DskipTests
 
-# Stage 2: Run the application in a smaller image
+# Stage 2: Create the final lightweight image
 FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
 
-# Copy the JAR from the builder stage
+# Copy the JAR file from the build stage
 COPY --from=builder /app/target/*.jar app.jar
 
 EXPOSE 8080
