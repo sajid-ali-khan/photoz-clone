@@ -1,7 +1,5 @@
 # Maven
 target/
-.mvn/
-!/.mvn/wrapper/
 
 # IDE files
 .idea/
