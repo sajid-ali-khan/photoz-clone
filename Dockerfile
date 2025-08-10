@@ -1,7 +1,7 @@
 # Stage 1: Build the application
 # Use a full JDK to compile the code and build the JAR
-FROM openjdk:17-jdk-slim as builder
-
+FROM eclipse-temurin:17-jre-jammy
+    # ... your application's build steps
 # Set the working directory inside the container
 WORKDIR /app
 
