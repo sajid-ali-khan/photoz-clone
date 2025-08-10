@@ -1,0 +1,12 @@
+* {
+  margin: 0;
+}
+
+@import "tailwindcss";
+
+.app {
+  display: flex;
+  flex-direction: column;
+  background-color: #eff3f5;
+  height: 100vh;
+}

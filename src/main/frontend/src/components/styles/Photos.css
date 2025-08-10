@@ -1,0 +1,7 @@
+.photos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding-top: 25px;
+    width: 100%;
+}

@@ -1,0 +1,26 @@
+# Maven
+target/
+.mvn/
+!/.mvn/wrapper/
+
+# IDE files
+.idea/
+.vscode/
+.classpath
+.project
+.settings/
+*.iml
+
+# Node / React
+**/node
+**/node_modules/
+**/dist/
+**/build/
+.cache/
+.env
+
+# Logs and other files
+*.log
+*.jar
+*.war
+*.class
