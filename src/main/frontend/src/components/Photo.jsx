@@ -6,9 +6,9 @@ import axios from 'axios'
 const Photo = ({ title = 'title', image, imageId, onPhotoDeleted }) => {
     const API_BASE = import.meta.env.VITE_API_BASE;
     const exportPhoto = async () => {
-        console.log("Yup")
+        // console.log("Yup")
         try {
-            const response = await axios.get(`${API_BASE}download/${imageId}`, {
+            const response = await axios.get(`${API_BASE}api/download/${imageId}`, {
                 responseType: 'blob',
             });
 

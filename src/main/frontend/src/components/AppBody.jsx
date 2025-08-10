@@ -13,7 +13,7 @@ const AppBody = () => {
 
     const fetchPhotos = async () => {
         const url = `${API_BASE}api/photoz`;
-        console.log(url);
+        // console.log(url);
         try {
             const response = await axios.get(url);
 
