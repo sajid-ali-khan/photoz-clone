@@ -4,6 +4,7 @@ import { PhotoLibrary } from '@mui/icons-material'
 import axios from 'axios';
 
 const PhotoForm = ({onPhotoUploaded}) => {
+  const API_BASE = import.meta.env.VITE_API_BASE;
   const [fileName, setFileName] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -16,7 +17,6 @@ const PhotoForm = ({onPhotoUploaded}) => {
   }
   const uploadFile = async (e) => {
     e.preventDefault();
-    // post: http://localhost:8080/api/photoz with body = photo file in a multipart form
     if (!selectedFile) {
       alert('Please select a file first.')
       return;
@@ -27,14 +27,12 @@ const PhotoForm = ({onPhotoUploaded}) => {
       formData.append('photo', selectedFile);
       formData.append('title',fileName);
 
-      const response = await axios.post('http://localhost:8080/api/photoz', formData, {
+      const response = await axios.post(`${API_BASE}api/photoz`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      // console.log('File uploaded successfully:', response.data);
-      // You can add logic here to handle success, e.g., clear the form or show a success message
       onPhotoUploaded();
       setFileName('');
       setSelectedFile(null);

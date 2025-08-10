@@ -4,13 +4,16 @@ import Photos from './Photos'
 import PhotoForm from './PhotoForm'
 import axios from 'axios'
 
+const API_BASE = import.meta.env.VITE_API_BASE;
+
 const AppBody = () => {
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const fetchPhotos = async () => {
-        const url = 'http://localhost:8080/api/photoz';
+        const url = `${API_BASE}api/photoz`;
+        console.log(url);
         try {
             const response = await axios.get(url);
 

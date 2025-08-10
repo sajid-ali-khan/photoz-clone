@@ -4,17 +4,16 @@ import { DownloadOutlined, Delete } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import axios from 'axios'
 const Photo = ({ title = 'title', image, imageId, onPhotoDeleted }) => {
+    const API_BASE = import.meta.env.VITE_API_BASE;
     const exportPhoto = async () => {
         console.log("Yup")
         try {
-            const response = await axios.get(`http://localhost:8080/api/download/${imageId}`, {
+            const response = await axios.get(`${API_BASE}download/${imageId}`, {
                 responseType: 'blob',
             });
 
-            // 1. Get the Content-Type from the response headers
             const contentType = response.headers['content-type'];
 
-            // 2. Create the Blob, specifying its type
             const blob = new Blob([response.data], { type: contentType });
 
 
@@ -24,7 +23,7 @@ const Photo = ({ title = 'title', image, imageId, onPhotoDeleted }) => {
             link.href = url;
 
             const contentDisposition = response.headers['content-disposition'];
-            let filename = 'download'; // Fallback filename
+            let filename = 'download';
             if (contentDisposition) {
                 const filenameMatch = contentDisposition.match(/filename="(.+)"/);
                 if (filenameMatch.length === 2) {
@@ -45,7 +44,7 @@ const Photo = ({ title = 'title', image, imageId, onPhotoDeleted }) => {
 
     const deletePhoto = async () => {
         try {
-            await axios.delete(`http://localhost:8080/api/photoz/${imageId}`)
+            await axios.delete(`${API_BASE}api/photoz/${imageId}`)
             console.log("Photo deleted successfully");
             onPhotoDeleted();
         }catch (error){
